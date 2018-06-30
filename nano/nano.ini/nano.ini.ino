@@ -1,4 +1,4 @@
-#define DEBUG
+//#define DEBUG
 
 enum fn {PW, AI, DO, DI, HELP};
 #define MY_ID 01 //ID 01-99
@@ -115,7 +115,7 @@ void loop() {
       break;
       case RECEBENDO:
         dados[indice++]=last_received;
-        if('\n' == last_received){
+        if('z' == last_received){
           meu_estado = SEM_INICIO;
           parse_do(dados);
           
