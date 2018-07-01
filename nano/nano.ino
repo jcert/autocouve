@@ -76,6 +76,11 @@ switch (fun) {
           case DO:
             pinMode(pin0,OUTPUT);
             digitalWrite(pin0,val0);
+            Serial.print("digital write");
+            Serial.print(pin0);
+            Serial.print("(");
+            Serial.print(val0);
+            Serial.print(")");
             break;
         }
         write_buffer("ACK");
@@ -143,22 +148,23 @@ void receiveEvent(int howMany) {
     switch(meu_estado){
       case SEM_INICIO:
         indice=0;
-        Serial.print("_0_");
+        Serial.print("0");
         if('&' == last_received) meu_estado = RECEBENDO;
       break;
       case RECEBENDO:
         dados[indice++]=last_received;
-        Serial.print("_R_");
+        Serial.print("R");
         if('!' == last_received){
           meu_estado = SEM_INICIO;
           Serial.print("_dados_");
-          Serial.println(dados);
+          Serial.print(dados);
+          Serial.print("\t:\t");
           parse_do(dados);
           
           #ifdef DEBUG
-          Serial.print("__");
+          Serial.print("_");
           for(int j=0;j<10;j++) Serial.print((char)dados[j]);
-          Serial.print("__");
+          Serial.print("_");
           #endif
         }
         if(indice>10){
