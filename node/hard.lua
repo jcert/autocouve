@@ -1,3 +1,6 @@
+-- funcoes pra acesso do hardware instalado no nano
+-- baseado no protocolo escrito pelo jair
+
 funcao_cod={}
 funcao_cod["NOME"]="0"
 funcao_cod["PWM"]="1"
@@ -34,16 +37,24 @@ function escreve_bomba(vaso_id,tempo)
 	fn=funcao_cod["DO"]
 	p=bomba_pino.."001"
 	com(fn,p)
-	tmr.delay(tempo*1000000)
-	p=bomba_pino.."000"
-	return com(fn,p)
+	
+	--tmr.delay(tempo*1000000)
+	timer=tmr.create()
+	timer:register(tempo*1000,tmr.ALARM_SINGLE,function()
+		fn=funcao_cod["DO"]
+		p=bomba_pino.."000"
+		com(fn,p)
+	end)
+	timer:start()
+		
+	--return com(fn,p)
 end
 
 function le_bomba(vaso_id)
 	bomba_index="bomba"..vaso_id
 	bomba_pino=pino[bomba_index]
 	fn=funcao_cod["READ"]
-	p=bomba_pino
+	p="D"..bomba_pino
 	return com(fn,p)
 end
 
@@ -68,12 +79,12 @@ function le_i_led(led_id)
 	i_led_index="i_led"..led_id
 	i_led_pino=pino[i_led_index]
 	fn=funcao_cod["READ"]
-	p=i_led_pino
+	p="P"..i_led_pino
 	return com(fn,p)
 end
 
 function le_t_led(led_id)
-	t_led_index="t_led"..t_led_id
+	t_led_index="t_led"..led_id
 	t_led_pino=pino[t_led_index]
 	fn=funcao_cod["AI"]
 	p=t_led_pino
@@ -91,7 +102,7 @@ end
 function le_coolers()
 	coolers_pino=pino["coolers"]
 	fn=funcao_cod["READ"]
-	p=coolers_pino
+	p="D"..coolers_pino
 	return com(fn,p)
 end
 
@@ -106,19 +117,19 @@ end
 
 function init_hard()
 	escreve_coolers(1)
-	print("coolers :"..le_coolers())
+	--print("coolers :"..le_coolers())
 	
 	escreve_i_led(1,255)
-	tmr.delay(1000000*2)
+	--tmr.delay(1000000*2)
 	escreve_i_led(2,255)
-	tmr.delay(1000000*2)
+	--tmr.delay(1000000*2)
 	escreve_i_led(3,255)
-	tmr.delay(1000000*2)
+	--tmr.delay(1000000*2)
 	escreve_i_led(4,255)
 	
-	print("i_led1: "..le_i_led(1))
-	print("i_led2: "..le_i_led(2))
-	print("i_led3: "..le_i_led(3))
-	print("i_led4: "..le_i_led(4))
+	--print("i_led1: "..le_i_led(1))
+	--print("i_led2: "..le_i_led(2))
+	--print("i_led3: "..le_i_led(3))
+	--print("i_led4: "..le_i_led(4))
 end
 

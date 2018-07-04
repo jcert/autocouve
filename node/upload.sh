@@ -1,3 +1,3 @@
 # script to upload files to nano
 
-nodemcu-uploader upload init.lua wifi.lua com.lua hard.lua
+nodemcu-uploader upload init.lua wifi.lua com.lua hard.lua mqtt.lua aux.lua

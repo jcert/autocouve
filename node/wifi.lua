@@ -1,10 +1,10 @@
 -- wifi config
 station_cfg={}
-station_cfg.ssid = "ssid"
-station_cfg.pwd = "pwd"
+station_cfg.ssid=""
+station_cfg.pwd=""
+
 
 -- wifi connection
 wifi.setmode(wifi.STATION)
 wifi.sta.config(station_cfg)
-tmr.delay(4000000)
-print(wifi.sta.getip())
+--wifi.sta.autoconnect(1)

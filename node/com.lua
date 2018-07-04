@@ -1,14 +1,11 @@
--- everything related to the communication with nano
-
-function tohex(str)
-    return (str:gsub('.', function (c)
-        return string.format('%02X', string.byte(c))
-    end))
-end
+-- comunicacao com o nano
+-- baseado no protocolo do jair
 
 -- i2c setup
+-- id:0
 -- SDA: pino 5
 -- SCL: pino 6
+-- endereco do nano 0x8
 id=0
 nano_addr=8
 i2c.setup(id,5,6,i2c.SLOW)
@@ -30,15 +27,13 @@ function com(fn,p)
 	received3=string.sub(received,1,3)
 	if received3=="ACK" then
 		-- received ack
-		print("received ACK")
-		return 0 
+		print("i2c: recebeu ACK")
+		return "ACK"
 	else
 		-- received data
 		received6=string.sub(received,1,6)
 		last_index=1
 		buff=tohex(string.sub(received6,last_index,last_index))
-		--print("buff: "..buff)
-		--print("last_index: "..last_index)
 		
 		while buff~="FF" do
 			last_index=last_index+1
@@ -48,15 +43,14 @@ function com(fn,p)
 
 		--last_index=last_index+1
 		--buff=string.sub(received6,last_index,last_index)
-		
 
 		received=string.sub(received6,1,last_index)
-		print("received value: "..received)
-		return 1
+		print("i2c: recebeu valor "..received)
+		return received
 	end
 end
 
-function debug_com()
+function com_test()
 	com("0","")
 	com("1","06111")
 	com("2","01")
