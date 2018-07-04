@@ -11,19 +11,19 @@ m = mqtt.Client(client_id,120,mqtt_user,mqtt_pwd)
 
 -- publicacao dos status  -------------------------------------------------------------
 topicos_status={}
-topicos_status[1]="/estufa1/led/1/i/status" 
-topicos_status[2]="/estufa1/led/2/i/status"
-topicos_status[3]="/estufa1/led/3/i/status"
-topicos_status[4]="/estufa1/led/4/i/status"
+topicos_status[1]="/estufa1/led1/i/status" 
+topicos_status[2]="/estufa1/led2/i/status"
+topicos_status[3]="/estufa1/led3/i/status"
+topicos_status[4]="/estufa1/led4/i/status"
 topicos_status[5]="/estufa1/vaso1/bomba/status"
 topicos_status[6]="/estufa1/vaso2/bomba/status"
 topicos_status[7]="/estufa1/vaso3/bomba/status"
 topicos_status[8]="/estufa1/vaso4/bomba/status"
 topicos_status[9]="/estufa1/coolers/status"
-topicos_status[10]="/estufa1/led/1/t/status"
-topicos_status[11]="/estufa1/led/2/t/status"
-topicos_status[12]="/estufa1/led/3/t/status"
-topicos_status[13]="/estufa1/led/4/t/status"
+topicos_status[10]="/estufa1/led1/t/status"
+topicos_status[11]="/estufa1/led2/t/status"
+topicos_status[12]="/estufa1/led3/t/status"
+topicos_status[13]="/estufa1/led4/t/status"
 topicos_status[14]="/estufa1/power/status"
 
 publish_ind=1
@@ -76,17 +76,17 @@ m:on("offline", function(client) print("mqtt: offline") end)
 
 -- leitura de comandos ----------------------------------------------------------------
 topicos_comando={}
-topicos_comando["/estufa1/led/1/i/command"]=2
-topicos_comando["/estufa1/led/2/i/command"]=2
-topicos_comando["/estufa1/led/3/i/command"]=2
-topicos_comando["/estufa1/led/4/i/command"]=2
-topicos_comando["/estufa1/vaso1/bomba/command"]=2
-topicos_comando["/estufa1/vaso2/bomba/command"]=2
-topicos_comando["/estufa1/vaso3/bomba/command"]=2
-topicos_comando["/estufa1/vaso4/bomba/command"]=2
-topicos_comando["/estufa1/coolers/command"]=2
-topicos_comando["/estufa1/power/command"]=2
-topicos_comando["/estufa1/stop_status/command"]=2
+topicos_comando["/estufa1/led1/i/comando"]=2
+topicos_comando["/estufa1/led2/i/comando"]=2
+topicos_comando["/estufa1/led3/i/comando"]=2
+topicos_comando["/estufa1/led4/i/comando"]=2
+topicos_comando["/estufa1/vaso1/bomba/comando"]=2
+topicos_comando["/estufa1/vaso2/bomba/comando"]=2
+topicos_comando["/estufa1/vaso3/bomba/comando"]=2
+topicos_comando["/estufa1/vaso4/bomba/comando"]=2
+topicos_comando["/estufa1/coolers/comando"]=2
+topicos_comando["/estufa1/power/comando"]=2
+topicos_comando["/estufa1/stop_status/comando"]=2
 
 
 m:connect(server,port, 0, function(client)
@@ -101,13 +101,11 @@ end)
 
 m:on("message", function(client, topic, data)
         topic_table=split(topic,"/")
-	if topic_table[2]=="led" then
-		led_id=topic_table[3]
-		if topic_table[4]=="i" then
-			valor=data
-			escreve_i_led(led_id,valor)
-			print("mqtt: escrevendo na intensidade do led"..led_id.." o valor "..valor)
-		end
+	if topic_table[3]=="i" then 
+		led_id=string.sub(topic_table[2],4,4)
+		valor=data
+		escreve_i_led(led_id,valor)
+		print("mqtt: escrevendo na intensidade do led"..led_id.." o valor "..valor)
 	elseif topic_table[3]=="bomba" then
 		vaso_id=string.sub(topic_table[2],5,5)
 		tempo=data
