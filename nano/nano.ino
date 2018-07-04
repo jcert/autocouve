@@ -7,6 +7,9 @@ enum fn {NONE, PW, AI, DO, DI, READ, HELP};
 char out_buffer[32];
 uint8_t used_size;
 
+
+uint8_t last_pmw[16];
+
 void parse_do(char data[]) {
   int fun = data[0];
       fun -= '0';
@@ -22,6 +25,7 @@ void parse_do(char data[]) {
   Serial.print(pin0);
   Serial.print("_");
 #endif
+  
 
 switch (fun) {
       case HELP:
@@ -32,6 +36,11 @@ switch (fun) {
       case READ:
       {
         int someInt;
+        int pin1 = data[2];
+        pin1 -= '0'; 
+        int pin0 = data[3];
+        pin0 -= '0';
+        pin0 += pin1 * 10; //converção char para inteiro 0 -> 99
         switch(data[1])
         {
         case 'A':
@@ -40,13 +49,15 @@ switch (fun) {
         case 'C':
           Serial.println("READ C nao implementado");
         break;
-        case '0':
-        case '1':
+        case 'D':
           someInt = digitalRead(pin0);
+        break;
+        case 'P':
+          someInt = last_pmw[pin0];
         break;  
           }
         char aux[12];
-        sprintf(aux, "%d", someInt);
+        sprintf(aux, "%d", someInt);Serial.print(aux);
         write_buffer(aux);
       }
       break;  
@@ -71,9 +82,16 @@ switch (fun) {
         }
         switch (fun) {
           case PW:
-            analogWrite(pin0,val0);
+            if(pin0<0 || pin0>16){}
+            else{
+              last_pmw[pin0]=val0;
+              analogWrite(pin0,val0);
+            }
             break;
           case DO:
+            char aux[12];
+            sprintf(aux,"digitalWrite %d,%d",pin0,val0);
+            write_buffer(aux);
             pinMode(pin0,OUTPUT);
             digitalWrite(pin0,val0);
             Serial.print("digital write");
@@ -105,7 +123,6 @@ switch (fun) {
         char aux[12];
         sprintf(aux, "%d", value);
         write_buffer(aux);
-        Serial.print(value);
         break;
         }
       default:
@@ -117,6 +134,7 @@ switch (fun) {
 }
 
 uint8_t write_buffer(char *x){
+  Serial.print(x);
   used_size=strlen(x);//variavel global do buffer global de escrita
   memcpy(out_buffer,x,used_size);
   out_buffer[used_size]='\0';
