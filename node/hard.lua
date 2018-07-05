@@ -114,6 +114,28 @@ function le_nivel_reserv(reserv_id)
 	return com(fn,p)
 end
 
+function desliga_estufa()
+	-- desliga todas as bombas
+	fn=funcao_cod["DO"]
+	cont=1
+	while cont<=4 do
+		bomba_index="bomba"..cont
+		bomba_pino=pino[bomba_index]
+		p=bomba_pino.."000"
+		com(fn,p)
+		cont=cont+1
+	end
+
+	-- desliga todos os leds
+	escreve_i_led(1,0)
+	escreve_i_led(2,0)
+	escreve_i_led(3,0)
+	escreve_i_led(4,0)
+
+	-- desliga os coolers
+	escreve_coolers(0)
+end	
+
 
 function init_hard()
 	escreve_coolers(1)

@@ -117,7 +117,8 @@ m:on("message", function(client, topic, data)
 		print("mqtt: escrevendo nos coolers o valor "..valor)
 	elseif topic_table[2]=="power" then
 		print("mqtt: desligando a estufa")
-		m:publish("/estufa1/power/status","estufa desligada",0,0,function(client) end)
+		m:publish("/estufa1/power/status","desligando os componentes da estufa",0,0,function(client) end)
+		desliga_estufa()
 		-- talvez seja util acrescentar um para_publish() aqui
 		-- desligar estufa
 	elseif topic_table[2]=="stop_status" then
