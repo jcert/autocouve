@@ -55,7 +55,7 @@ def on_message(t1, userdata, msg):
     #salva dado recebido na memómria e grava no arquivo
     var = str(msg.payload)
     #grava data e hora no dado recebido
-    var = var + agora.strftime(";%H:%M;%d/%m/%Y")
+    var = var + agora.strftime(";%H:%M:%S;%d/%m/%Y")
     file = open(dest + '/'+var_name+'.txt','a+')
     file.write(var + '\n')
     file.close()
