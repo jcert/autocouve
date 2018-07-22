@@ -6,6 +6,7 @@ Created on Thu Jun 28 20:02:41 2018
 @author: luisf
 """
 import os, sys
+import datetime
 import paho.mqtt.client as mqtt
 
 
@@ -24,14 +25,14 @@ def on_message(t1, userdata, msg):
     #print("Raiz: "+raiz)
     dest = raiz + msg.topic
     #print(dest)
- 
+
     #split the topic
     topic_split = msg.topic.split('/')
     topic_split = topic_split[1:]
-    
-    #get last split to save de 
+
+    #get last split to save de
     var_name = topic_split[-1]
-    
+
     #Cria caminho para os diretórios
     for i in topic_split:
         #print('pwd i',os.getcwd())
@@ -42,20 +43,26 @@ def on_message(t1, userdata, msg):
         #se erro: ignora
         except OSError :
             pass
-        #muda o dietório para o caminho especificado no tópico    
+        #muda o dietório para o caminho especificado no tópico
         os.chdir(i)
-    
+
     os.chdir(raiz)
     #print(os.getcwd(),"asdasdsdsadasd____",dest + '/'+var_name+'.csv','a+')
+
+    #hora e data
+    agora = datetime.datetime.now()
+
     #salva dado recebido na memómria e grava no arquivo
     var = str(msg.payload)
+    #grava data e hora no dado recebido
+    var = var + agora.strftime(";%H:%M:%S;%d/%m/%Y")
     file = open(dest + '/'+var_name+'.txt','a+')
-    file.write(var + '\n') 
+    file.write(var + '\n')
     file.close()
-    
-    
 
-    
+
+
+
 
 #print('---------Inicialização---------')
 
