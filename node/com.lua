@@ -45,7 +45,7 @@ function com(fn,p)
 		--buff=string.sub(received6,last_index,last_index)
 
 		received=string.sub(received6,1,last_index)
-		print("i2c: recebeu valor "..received)
+		--print("i2c: recebeu valor "..received)
 		return received
 	end
 end
