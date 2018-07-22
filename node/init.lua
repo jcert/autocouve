@@ -1,21 +1,32 @@
 -- script principal
 
+node.compile("aux.lua")
+node.compile("com.lua")
+node.compile("hard.lua")
+node.compile("wifi.lua")
+node.compile("mqtt.lua")
+
+--usa os scripts compilados
+
 -- funcoes auxiliares
-dofile("aux.lua")
+dofile("aux.lc")
 
 -- comunicacao i2c com o nano
-dofile("com.lua")
+dofile("com.lc")
 
 -- acesso ao hardware instalado no nano
-dofile("hard.lua")
+dofile("hard.lc")
 
 -- wifi
+print("1 memory:",node.heap())
 dofile("wifi.lua")
 
 -- mqtt
-dofile("mqtt.lua")
+print("2 memory:",node.heap())
+dofile("mqtt.lc")
+print("3 memory:",node.heap())
 
-
-
-
-
+tmr.delay(50)
+collectgarbage();
+print("4 memory:",node.heap())
+tmr.delay(50)
