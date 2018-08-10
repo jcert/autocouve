@@ -50,6 +50,29 @@ function com(fn,p)
 	end
 end
 
+function com_test_complex()
+	com("5","C00")
+	tmr.delay(1000000)
+	com("5","C01")
+        tmr.delay(1000000)
+	com("5","C02")
+        tmr.delay(10000000)
+	com("5","C03")
+        tmr.delay(1000000)
+	com("5","C04")
+        tmr.delay(1000000)
+	com("5","C05")
+        tmr.delay(1000000)
+	com("5","C06")
+        tmr.delay(1000000)
+	com("5","C07")
+        tmr.delay(1000000)
+	com("5","C08")
+        tmr.delay(1000000)
+end
+
+--com_test_complex()
+
 function com_test()
 	com("0","")
 	com("1","06111")

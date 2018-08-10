@@ -31,19 +31,26 @@ pino["nivel_reserv2"]="11"	-- digital
 
 
 function escreve_bomba(vaso_id,tempo)
+	print("=======",node.heap())
+	print("debugao")
 	--vaso_id=string.format("%02d",vaso_id)
 	bomba_index="bomba"..vaso_id
 	bomba_pino=pino[bomba_index]
 	fn=funcao_cod["DO"]
 	p=bomba_pino.."001"
+	print("111111111")
 	com(fn,p)
-	
+	print("2222222222")
 	--tmr.delay(tempo*1000000)
 	timer=tmr.create()
 	timer:register(tempo*1000,tmr.ALARM_SINGLE,function()
+		print("=======",node.heap())
 		fn=funcao_cod["DO"]
 		p=bomba_pino.."000"
+		print("333333333")
+		print("mandando para acabar"..fn.." "..p)
 		com(fn,p)
+		print("44444444444")
 	end)
 	timer:start()
 		
@@ -83,14 +90,23 @@ function le_i_led(led_id)
 	return com(fn,p)
 end
 
+--- se cagar o codigo, foi aqui----------------------
+
 function le_t_led(led_id)
-	t_led_index="t_led"..led_id
-	t_led_pino=pino[t_led_index]
-	fn=funcao_cod["AI"]
-	p=t_led_pino
+	--t_led_index="t_led"..led_id
+	--t_led_pino=pino[t_led_index]
+	fn=funcao_cod["READ"]
+	-- C5: t led 1
+	-- C6: t led 2
+	-- C7: t led 3
+	-- C8: t led 4
+	complex_par=string.format("%02d",led_id+4)
+
+	p="C"..complex_par
 	return com(fn,p)
 end
 
+---------------------------------------------------
 function escreve_coolers(valor)
 	coolers_pino=pino["coolers"]
 	fn=funcao_cod["DO"]
