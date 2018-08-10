@@ -1,10 +1,3 @@
--- mqtt 
-
-server=".com"
-port=
-client_id=""
-mqtt_user=""
-mqtt_pwd=""
 
 m = mqtt.Client(client_id,120,mqtt_user,mqtt_pwd)
 
@@ -23,7 +16,7 @@ end
 
 
 
-estufa="/estufa2"
+estufa="/estufa1"
 -- publicacao dos status  -------------------------------------------------------------
 topicos_status={
 [1] =estufa.."/led1/i/status",

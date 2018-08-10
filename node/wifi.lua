@@ -1,8 +1,3 @@
--- wifi config
-station_cfg={}
-station_cfg.ssid="-"
-station_cfg.pwd=""
-
 
 -- wifi connection
 wifi.sta.sethostname("autocouveNODE")
