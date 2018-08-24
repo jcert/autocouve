@@ -1,6 +1,7 @@
 -- funcoes pra acesso do hardware instalado no nano
 -- baseado no protocolo escrito pelo jair
 
+[[[
 funcao_cod={}
 funcao_cod["NOME"]="0"
 funcao_cod["PWM"]="1"
@@ -154,4 +155,5 @@ function init_hard()
 	--print("i_led3: "..le_i_led(3))
 	--print("i_led4: "..le_i_led(4))
 end
+]]]
 
