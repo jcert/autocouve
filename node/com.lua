@@ -10,13 +10,48 @@ id=0
 nano_addr=8
 i2c.setup(id,5,6,i2c.SLOW)
 
+function pedir_status()
+--pedir T_led1 READ.C.XX com("5","CXX")
+--pedir T_led2 READ.C.XX
+--pedir T_led3 READ.C.XX
+--pedir T_led4 READ.C.XX
+
+--pedir i_led1 READ.P.XX
+--pedir i_led2 READ.P.XX
+--pedir i_led3 READ.P.XX
+--pedir i_led4 READ.P.XX
+
+--pedir Umid_v1 READ.C.XX
+--pedir Umid_v2 READ.C.XX
+--pedir Umid_v3 READ.C.XX
+--pedir Umid_v4 READ.C.XX
+
+--pedir Cooler READ.C.XX
+
+--pedir Reservatorio READ.C.XX
+
+end
+
+--descrição dos possíveis 'fn' - funções do arduino slave
+--"NOME"-"0" "PWM"-"1" "AI"-"2" "DO"-"3" "DI"-"4" "READ"-"5" "HELP"-"6"
+
+--descrição dos possíveis 'p' - pinos do arduino slave
+--concatenar o valor a ser passado para a função, ex: PWM.09.200 ou READ.C.07
+--bomba1 02 digital	bomba2 07 digital	bomba3 04 digital	bomba4 08 digital 
+--i_led1 09 pwm		i_led2 05 pwm 		i_led3 06 pwm		i_led4 03 pwm 	
+--coolers 12 digital	
+--t_led1 00 analogica	t_led2 01 analogica 	t_led3 02 analogica	t_led4 03 analogica	
+--umid_vaso1 06 analogica 	umid_vaso2 07 analogica 
+--nivel_reserv1 10 digital 	nivel_reserv2 11 digital
+
+
 function com(fn,p)
 	-- send request to nano
 	i2c.start(id)
 	i2c.address(id,nano_addr,i2c.TRANSMITTER)
 	message="&"..fn..p.."!"
 	i2c.write(id,message)
-	i2c.stop(id)
+	i2c.stop(id) --precisa parar entre as transmissões?
 
 	-- receive answer
 	i2c.start(id)
@@ -41,11 +76,8 @@ function com(fn,p)
 		end
 		last_index=last_index-1
 
-		--last_index=last_index+1
-		--buff=string.sub(received6,last_index,last_index)
-
 		received=string.sub(received6,1,last_index)
-		--print("i2c: recebeu valor "..received)
+		
 		return received
 	end
 end
