@@ -5,12 +5,14 @@ m = mqtt.Client(client_id,120,mqtt_user,mqtt_pwd)
 function connect_MQTT()
   return m:connect(server,port, 0, function(client)
     print("mqtt: conectado")
+no = [[
     client:subscribe(topicos_comando, function(conn) 
 		  print("mqtt: inscrito nos topicos") 
 		  inicia_publish()
 		end)
   end, function(client, reason)
     print("mqtt: failed reason " .. reason)
+]]
   end)
 end
 
@@ -18,6 +20,8 @@ end
 
 estufa="/estufa1"
 -- publicacao dos status  -------------------------------------------------------------
+
+no = [[
 topicos_status={
 [1] =estufa.."/led1/i/status",
 [2] =estufa.."/led2/i/status",
@@ -34,6 +38,7 @@ topicos_status={
 [13]=estufa.."/led4/t/status",
 [14]=estufa.."/power/status"
 }
+]]
 
 publish_ind=1
 espera=1000 -- em ms
@@ -41,6 +46,7 @@ timer_publish=tmr.create()
 timer_publish:register(espera,tmr.ALARM_AUTO,function()
   --print("mqtt memory:",node.heap())
   collectgarbage();
+no = [[
 	if publish_ind<=4 then  --i dos led1,led2,led3,led4
 		led_id=publish_ind
 		leitura=le_i_led(led_id)
@@ -69,6 +75,7 @@ timer_publish:register(espera,tmr.ALARM_AUTO,function()
 		--print("mqtt: estufa ligada")
 		publish_ind=1
 	end
+]]
 end)
 
 function inicia_publish()
@@ -93,6 +100,7 @@ end)
 
 
 -- leitura de comandos ----------------------------------------------------------------
+no = [[
 topicos_comando={
 [estufa.."/led1/i/comando"]=2,
 [estufa.."/led2/i/comando"]=2,
@@ -106,10 +114,12 @@ topicos_comando={
 [estufa.."/power/comando"]=2,
 [estufa.."/stop_status/comando"]=2
 }
+]]
 
 connect_MQTT()
 
 m:on("message", function(client, topic, data)
+no = [[
   topic_table=split(topic,"/")
 	if topic_table[3]=="i" then 
 		led_id=string.sub(topic_table[2],4,4)
@@ -141,6 +151,7 @@ m:on("message", function(client, topic, data)
 		end
 
 	end
+]]
 end)
 ---------------------------------------------------------------------------------------
 
