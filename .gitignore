@@ -1,1 +1,5 @@
 priv
+pwds
+tmp*
+tmp/*
+*.prepend

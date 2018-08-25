@@ -1,12 +1,12 @@
 //#define DEBUG
 
 #include <Wire.h>
+#include "complex.h"
 enum fn {NONE, PW, AI, DO, DI, READ, HELP};
 #define MY_ID 8 //
 
 char out_buffer[32];
 uint8_t used_size;
-
 
 uint8_t last_pmw[16];
 
@@ -47,7 +47,14 @@ switch (fun) {
           someInt = analogRead(pin0);
         break;
         case 'C':
-          Serial.println("READ C nao implementado");
+          if(0<pin0 && 9>pin0){
+            unsigned long a = millis();
+            someInt = fn_complexa[pin0-1]();
+            unsigned long b = millis();
+            Serial.print("deltaT");
+            Serial.print(b-a);
+            Serial.print("chamada complexa");
+            }
         break;
         case 'D':
           someInt = digitalRead(pin0);
@@ -57,7 +64,7 @@ switch (fun) {
         break;  
           }
         char aux[12];
-        sprintf(aux, "%d", someInt);Serial.print(aux);
+        sprintf(aux, "%d", someInt);
         write_buffer(aux);
       }
       break;  
@@ -152,6 +159,7 @@ void setup() {
   Wire.begin(MY_ID);                // join i2c bus with address MY_ID
   Wire.onReceive(receiveEvent); // register event
   Wire.onRequest(requestEvent); // register event
+  //init_complex();
 }
 
 void requestEvent(){
@@ -195,8 +203,12 @@ void receiveEvent(int howMany) {
     };         // print the integer
 }
 
-
+unsigned long DHT_last;
+#define DHT_period 2000
 
 void loop() {
-    
+  if(millis()>DHT_last+DHT_period){
+    //umidade_ambiente = leruamb(ambiente);
+    }
+  delay(1);
 }

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 #Script em Python para salvar os dados de um servidor mqtt
 """
 Created on Thu Jun 28 20:02:41 2018
@@ -61,17 +62,12 @@ def on_message(t1, userdata, msg):
     file.close()
 
 
-
-
-
-#print('---------Inicialização---------')
-
-client = mqtt.Client("blblbadad12232")#must be unique
-client.username_pw_set("user", "password")
+client = mqtt.Client(uniq_cli)#must be unique
+client.username_pw_set(user, pwd)
 client.on_connect = on_connect
 client.on_message = on_message
 
-client.connect("m12.cloudmqtt.com", 18372, 60)
+client.connect(server, port, timeout)
 
 
 # Blocking call that processes network traffic, dispatches callbacks and
