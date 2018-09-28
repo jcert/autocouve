@@ -3,12 +3,23 @@
 
 -- i2c setup
 -- id:0
--- SDA: pino 5
--- SCL: pino 6
+-- SDA: pino D1
+-- SCL: pino D2
 -- endereco do nano 0x8
 id=0
 nano_addr=8
-i2c.setup(id,5,6,i2c.SLOW)
+i2c.setup(id,1,2,i2c.SLOW) --pinos foram trocados no layout da placa, por isso troquei no código, será arrumado ná próxima atualização 
+
+--for i=1,10 do
+--	print(i,estado[i])
+--end
+--com("3","10001")
+
+--com("3","03001")
+--com("3","05001")
+--com("3","06001")
+--com("3","09001")
+
 
 function pedir_status()
 estado[1] = com("5","C05") --pedir T_led1 READ.C.05
@@ -24,8 +35,8 @@ estado[8] = com("5","P03") --pedir i_led4 READ.P.03
 estado[9] = com("5","C03") --pedir Umid_G READ.C.03
 estado[10] = com("5","C04") --pedir Temp_G READ.C.04
 
-estado[11] = com("5","C01") --pedir Umid_v1 READ.C.01
-estado[12] = com("5","C02") --pedir Umid_v2 READ.C.02
+--estado[11] = com("5","C01") --pedir Umid_v1 READ.C.01
+--estado[12] = com("5","C02") --pedir Umid_v2 READ.C.02
 --estado[13] = com("5","C05") --pedir Umid_v3 READ.C.XX não existe ainda
 --estado[14] = com("5","C05") --pedir Umid_v4 READ.C.XX
 
@@ -64,6 +75,7 @@ function com(fn,p)
 	i2c.start(id)
 	i2c.address(id,nano_addr,i2c.TRANSMITTER)
 	message="&"..fn..p.."!"
+	-- i2c.start(0) i2c.address(0,8,i2c.TRANSMITTER) i2c.write(0,"&600000!") i2c.stop(0)
 	i2c.write(id,message)
 	i2c.stop(id) --precisa parar entre as transmissões?
 
