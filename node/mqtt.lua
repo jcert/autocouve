@@ -1,6 +1,10 @@
 
 m = mqtt.Client(client_id,120,mqtt_user,mqtt_pwd)
 
+m:lwt("/lwt", "offline", 0, 0)
+
+m:on("connect", function(client) print ("connected") end)
+m:on("offline", function(client) print ("offline - lugar do retry") end)
 
 function connect_MQTT()
   return m:connect(server,port, 0, function(client)

@@ -1,6 +1,60 @@
 -- funcoes pra acesso do hardware instalado no nano
 -- baseado no protocolo escrito pelo jair
 
+
+
+pino["i_led1"]="09"		-- pwm
+pino["i_led2"]="05"		-- pwm
+pino["i_led3"]="06"		-- pwm
+pino["i_led4"]="03"		-- pwm
+
+
+i_led_index="i_led"..led_id
+i_led_pino=pino[i_led_index]
+fn=funcao_cod["PWM"]
+valor_formatado=string.format("%03d",valor)
+p=i_led_pino..valor_formatado
+return com(fn,p)
+
+estados_verifica = {}
+
+function verificaLED()
+  local a,b = 0
+  a = com("2","P05000")--leitura analógica do LDR
+  
+  com("1","P05255")
+  b = com("2","P05000")--leitura analógica do LDR
+  com("1","P05000")
+
+  estados_verifica[1] = b>a
+
+  com("1","P06255")
+  b = com("2","P05000")--leitura analógica do LDR
+  com("1","P06000")
+
+  estados_verifica[2] = b>a
+
+  com("1","P07255")
+  b = com("2","P05000")--leitura analógica do LDR
+  com("1","P07000")
+
+  estados_verifica[3] = b>a
+
+  com("1","P08255")
+  b = com("2","P05000")--leitura analógica do LDR
+  com("1","P08000")
+   
+  estados_verifica[4] = b>a
+end
+
+function verificaWIFI()
+  net.dns.resolve("www.google.com", function(sk, ip)
+      if (ip == nil) then print("DNS fail!") else print(ip) end
+  end)
+end
+
+
+
 no = [[
 funcao_cod={}
 funcao_cod["NOME"]="0"
