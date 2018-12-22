@@ -1,3 +1,6 @@
+-- configure for 115200, 8N1, with echo
+uart.setup(0, 115200, 8, uart.PARITY_NONE, uart.STOPBITS_1, 1)
+
 -- script principal
 
 node.compile("aux.lua")
@@ -5,6 +8,7 @@ node.compile("com.lua")
 node.compile("hard.lua")
 node.compile("wifi.lua")
 node.compile("mqtt.lua")
+node.compile("main_loop.lua")
 
 
 ----acho que vai economizar espaço usar as chaves numericas e não string
@@ -45,7 +49,18 @@ print("2 memory:",node.heap())
 dofile("mqtt.lc")
 print("3 memory:",node.heap())
 
+-- main_loop
+print("4 memory:",node.heap())
+dofile("main_loop.lc")
+print("5 memory:",node.heap())
+
 tmr.delay(50)
 collectgarbage();
-print("4 memory:",node.heap())
+print("6 memory:",node.heap())
 tmr.delay(50)
+
+main_loop_tmr = tmr.create()
+main_loop_tmr:register(1000, tmr.ALARM_AUTO, main_loop)
+main_loop_tmr:start()
+
+
