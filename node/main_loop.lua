@@ -12,7 +12,7 @@ function main_loop()
     min=math.floor(sec/60)
     hour=math.floor(min/60)    
 
-    if not las_min_ilu==min then    
+    if not last_min_ilu==min then    
         -- acionamento dos coolers
         if han_luz[min]==0 then
             com("3","12000")    -- 3: d0, 12: coolers, 000: desligado               
