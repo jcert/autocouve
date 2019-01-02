@@ -1,7 +1,15 @@
 
-function asdasd(c,d,s,f,g)
-
-
+function luz(a, c)
+	han_luz = {}
+	for i=0,1699 do
+		gaussian = a*2.718282^(-(i-12*60)^2/(2*(c*60)^2))
+		if gaussian >= 1 then
+			han_luz[i] = math.floor(gaussian)
+		else
+			han_luz[i] = 0
+		end
+	end
+	return han_luz
 end
 
 
