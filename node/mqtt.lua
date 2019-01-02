@@ -1,14 +1,15 @@
+function set_light(data)
+	data = split(data,",")
+	a = tonumber(data[1])
+	c = tonumber(data[2])
 
-function luz(a, c)
 	han_luz = {}
-	for i=0,1439 do
+	for i=0,1440 do
 		gaussian = a*2.718282^(-(i-12*60)^2/(2*(c*60)^2))
-		if gaussian >= 1 then
-			han_luz[i] = math.floor(gaussian)
-		else
-			han_luz[i] = 0
-		end
+
+		han_luz[i] = math.floor(gaussian)
 	end
+
 	return han_luz
 end
 
