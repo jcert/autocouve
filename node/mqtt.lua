@@ -1,4 +1,10 @@
 
+function asdasd(c,d,s,f,g)
+
+
+end
+
+
 m = mqtt.Client(client_id,120,mqtt_user,mqtt_pwd)
 
 m:lwt("/lwt", "offline", 0, 0)
@@ -50,6 +56,13 @@ timer_publish=tmr.create()
 timer_publish:register(espera,tmr.ALARM_AUTO,function()
   --print("mqtt memory:",node.heap())
   collectgarbage();
+
+    --input de curva solar
+
+    --input da irrigação
+
+
+
 no = [[
 	if publish_ind<=4 then  --i dos led1,led2,led3,led4
 		led_id=publish_ind
