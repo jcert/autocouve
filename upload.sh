@@ -6,7 +6,7 @@ for x in $(ls -d */)
 do
   cd $mypath
   cd $x
-  folder = ${PWD##*/}
+  folder=${PWD##*/}
   ./upload.sh
   echo "$folder"
 done
