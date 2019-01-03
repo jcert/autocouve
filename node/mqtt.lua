@@ -68,7 +68,13 @@ timer_publish:register(espera,tmr.ALARM_AUTO,function()
 
     --input de curva solar
 
-    --input da irrigação
+    --input da irrigação	
+				
+				
+end)
+
+
+
 
 
 
@@ -145,6 +151,17 @@ topicos_comando={
 connect_MQTT()
 
 m:on("message", function(client, topic, data)
+	topic_table=split(topic,"/")
+	tam_topic_table = #topic_table
+
+	if topic_table[tam_topic_table-1] == "set_water_time" then
+		set_watering(data)
+
+	elseif topic_table[tam_topic_table-1] == "set_light" then
+		set_light_config(data)
+
+	end
+
 no = [[
   topic_table=split(topic,"/")
 	if topic_table[3]=="i" then 
