@@ -158,7 +158,7 @@ m:on("message", function(client, topic, data)
 		set_watering(data)
 
 	elseif topic_table[tam_topic_table-1] == "set_light" then
-		set_light_config(data)
+		set_light(data)
 
 	end
 
