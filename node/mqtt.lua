@@ -108,7 +108,6 @@ no = [[
 		publish_ind=1
 	end
 ]]
-end)
 
 function inicia_publish()
 	timer_publish:start()
