@@ -24,14 +24,14 @@ m:on("offline", function(client) print ("offline - lugar do retry") end)
 function connect_MQTT()
   return m:connect(server,port, 0, function(client)
     print("mqtt: conectado")
-no = [[
-    client:subscribe(topicos_comando, function(conn) 
-		  print("mqtt: inscrito nos topicos") 
-		  inicia_publish()
+
+    client:subscribe(topicos_comando, function(conn)
+		  print("mqtt: inscrito nos topicos")
+		  --inicia_publish()
 		end)
   end, function(client, reason)
     print("mqtt: failed reason " .. reason)
-]]
+
   end)
 end
 
@@ -68,9 +68,9 @@ timer_publish:register(espera,tmr.ALARM_AUTO,function()
 
     --input de curva solar
 
-    --input da irrigação	
-				
-				
+    --input da irrigação
+
+
 end)
 
 
@@ -89,28 +89,26 @@ function try_reconnect()
 print("mqtt: offline")
 timer_reMQTT=tmr.create()
 end
-m:on("offline", function(client) 
+m:on("offline", function(client)
   tmr.create():alarm(5000, tmr.ALARM_AUTO, function()
   end)
 end)
 
 
 -- leitura de comandos ----------------------------------------------------------------
-no = [[
+
 topicos_comando={
-[estufa.."/led1/i/comando"]=2,
-[estufa.."/led2/i/comando"]=2,
-[estufa.."/led3/i/comando"]=2,
-[estufa.."/led4/i/comando"]=2,
-[estufa.."/vaso1/bomba/comando"]=2,
-[estufa.."/vaso2/bomba/comando"]=2,
-[estufa.."/vaso3/bomba/comando"]=2,
-[estufa.."/vaso4/bomba/comando"]=2,
-[estufa.."/coolers/comando"]=2,
-[estufa.."/power/comando"]=2,
-[estufa.."/stop_status/comando"]=2
+[estufa.."/led1/set_light"]=2,
+[estufa.."/bomba/set_water_time"]=2,
+--[estufa.."/vaso1/bomba/comando"]=2,
+--[estufa.."/vaso2/bomba/comando"]=2,
+--[estufa.."/vaso3/bomba/comando"]=2,
+--[estufa.."/vaso4/bomba/comando"]=2,
+--[estufa.."/coolers/comando"]=2,
+--[estufa.."/power/comando"]=2,
+--[estufa.."/stop_status/comando"]=2
 }
-]]
+
 
 connect_MQTT()
 
@@ -118,10 +116,10 @@ m:on("message", function(client, topic, data)
 	topic_table=split(topic,"/")
 	tam_topic_table = #topic_table
 
-	if topic_table[tam_topic_table-1] == "set_water_time" then
+	if topic_table[tam_topic_table] == "set_water_time" then
 		set_watering(data)
 
-	elseif topic_table[tam_topic_table-1] == "set_light" then
+	elseif topic_table[tam_topic_table] == "set_light" then
 		set_light(data)
 
 	end
@@ -131,4 +129,3 @@ end)
 
 
 --m:close();
-
