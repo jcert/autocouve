@@ -5,7 +5,7 @@ last_hour_irrig=-1
 
 function main_loop()
     --debug
-    --print("loop\n")
+    print("loop\n")
 
     -- pega os valores de tempo em minuto
     tm=rtctime.epoch2cal(rtctime.get())
@@ -14,12 +14,12 @@ function main_loop()
     hour=tm["hour"]
     dec_min = math.floor(min/10)
     
-  if not last_dec_min_ilu==dec_min then    
+  if last_dec_min_ilu~=dec_min then    
         -- acionamento dos coolers
         if han_luz[dec_min]==0 then
-            com(nano1_addr,"3","12000")    -- 3: d0, 12: coolers, 000: desligado               
+            com(nano1_addr,"3","10000")    -- 3: d0, 12: coolers, 000: desligado               
         else
-            com(nano1_addr,"3","12001")    -- 3: d0, 12: coolers, 001: ligado
+            com(nano1_addr,"3","10001")    -- 3: d0, 12: coolers, 001: ligado
         end    
 
         -- acionamento dos leds
@@ -34,8 +34,8 @@ function main_loop()
     end
 
     -- acionamento das bombas
-    if not last_hour_irrig==hour then
-        if not kbc_bomba[hour]==0 then
+    if last_hour_irrig~=hour then
+        if kbc_bomba[hour]~=0 then
             -- liga bombas            
             com(nano1_addr,"3","02001")    -- 3: d0, 02: bomba1, 001: ligado
             com(nano1_addr,"3","07001")    -- 3: d0, 07: bomba2, 001: ligado

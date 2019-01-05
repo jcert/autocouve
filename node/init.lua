@@ -12,7 +12,6 @@ node.compile("watering.lua")
 node.compile("main_loop.lua")
 
 
-
 ----acho que vai economizar espaço usar as chaves numericas e não string
 --[ 1] T_led1
 --[ 2] T_led2
@@ -69,6 +68,7 @@ rtctime.set(1546300800, 0)
 local tm = rtctime.epoch2cal(rtctime.get())
 print(string.format("%04d/%02d/%02d %02d:%02d:%02d", tm["year"], tm["mon"], tm["day"], tm["hour"], tm["min"], tm["sec"]))
 
+collectgarbage();
 -- incializa o ciclo principal da estufa
 main_loop_tmr = tmr.create()
 main_loop_tmr:register(1000, tmr.ALARM_AUTO, main_loop)

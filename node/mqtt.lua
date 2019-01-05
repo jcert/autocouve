@@ -74,41 +74,6 @@ timer_publish:register(espera,tmr.ALARM_AUTO,function()
 end)
 
 
-
-
-
-
-no = [[
-	if publish_ind<=4 then  --i dos led1,led2,led3,led4
-		led_id=publish_ind
-		leitura=le_i_led(led_id)
-		m:publish(topicos_status[publish_ind],leitura,0,0,function(client) end)
-		--print("mqtt: intensidade do led"..led_id.." igual a "..leitura)
-		publish_ind=publish_ind+1
-	elseif publish_ind<=8 then --bombas vaso1,vaso2,vaso3,vaso4
-		vaso_id=publish_ind-4
-		leitura=le_bomba(vaso_id)
-		m:publish(topicos_status[publish_ind],leitura,0,0,function(client) end)
-		--print("mqtt: valor da bomba do vaso"..vaso_id.." igual a "..leitura)
-		publish_ind=publish_ind+1
-	elseif publish_ind==9 then --coolers
-		leitura=le_coolers()
-		m:publish(topicos_status[publish_ind],leitura,0,0,function(client) end)
-		--print("mqtt: valor dos coolers igual a "..leitura)
-		publish_ind=publish_ind+1
-	elseif publish_ind<=13 then --t dos led1, led2, led3, led4
-		led_id=publish_ind-9
-		leitura=le_t_led(led_id)
-		m:publish(topicos_status[publish_ind],leitura,0,0,function(client) end)
-		--print("mqtt: valor de temperatura do led"..led_id.." igual a "..leitura)
-		publish_ind=publish_ind+1
-	elseif publish_ind==14 then --power
-		m:publish(topicos_status[publish_ind],"estufa ligada",0,0,function(client) end)
-		--print("mqtt: estufa ligada")
-		publish_ind=1
-	end
-]]
-
 function inicia_publish()
 	timer_publish:start()
 end
@@ -161,39 +126,6 @@ m:on("message", function(client, topic, data)
 
 	end
 
-no = [[
-  topic_table=split(topic,"/")
-	if topic_table[3]=="i" then 
-		led_id=string.sub(topic_table[2],4,4)
-		valor=data
-		escreve_i_led(led_id,valor)
-		--print("mqtt: escrevendo na intensidade do led"..led_id.." o valor "..valor)
-	elseif topic_table[3]=="bomba" then
-		vaso_id=string.sub(topic_table[2],5,5)
-		tempo=data
-		escreve_bomba(vaso_id,tempo)
-		--print("mqtt: escrevendo na bomba do vaso"..vaso_id.." por "..tempo.." segundos")
-	elseif topic_table[2]=="coolers" then
-		valor=data
-		escreve_coolers(valor)
-		--print("mqtt: escrevendo nos coolers o valor "..valor)
-	elseif topic_table[2]=="power" then
-		--print("mqtt: desligando a estufa")
-		m:publish(estufa.."/power/status","desligando os componentes da estufa",0,0,function(client) end)
-		desliga_estufa()
-		-- talvez seja util acrescentar um para_publish() aqui
-		-- desligar estufa
-	elseif topic_table[2]=="stop_status" then
-		if data=="1" then
-			--print("mqtt: desligando a publicacao de status")
-			para_publish()
-		elseif data=="0" then
-			--print("mqtt: ligando a publicacao de status")
-			inicia_publish()
-		end
-
-	end
-]]
 end)
 ---------------------------------------------------------------------------------------
 
