@@ -22,10 +22,10 @@ i2c.setup(id,1,2,i2c.SLOW) --pinos foram trocados no layout da placa, por isso t
 
 
 function pedir_status()
-estado[1]  = com(nano1_addr,"5","C05") --pedir T_led1 READ.C.05
-estado[2]  = com(nano1_addr,"5","C06") --pedir T_led2 READ.C.06
-estado[3]  = com(nano1_addr,"5","C07") --pedir T_led3 READ.C.07
-estado[4]  = com(nano1_addr,"5","C08") --pedir T_led4 READ.C.08
+estado[1]  = com(nano1_addr,"5","C03") --pedir T_led1 READ.C.03
+estado[2]  = com(nano1_addr,"5","C01") --pedir T_led2 READ.C.01
+estado[3]  = com(nano1_addr,"5","C02") --pedir T_led3 READ.C.02
+estado[4]  = com(nano1_addr,"5","C00") --pedir T_led4 READ.C.00
 
 estado[5]  = com(nano1_addr,"5","P09") --pedir i_led1 READ.P.09
 estado[6]  = com(nano1_addr,"5","P05") --pedir i_led2 READ.P.05
@@ -40,7 +40,7 @@ estado[10] = com(nano1_addr,"5","C04") --pedir Temp_G READ.C.04
 --estado[13] = com(nano1_addr,"5","C05") --pedir Umid_v3 READ.C.XX não existe ainda
 --estado[14] = com(nano1_addr,"5","C05") --pedir Umid_v4 READ.C.XX
 
-estado[15] = com(nano1_addr,"5","D10") --pedir Cooler READ.D.12
+estado[15] = com(nano1_addr,"5","D10") --pedir Cooler READ.D.10
 
 --estado[16] = com(nano1_addr,"5","C??") --pedir Reservatorio READ.C.10
 end
