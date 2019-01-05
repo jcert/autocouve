@@ -8,12 +8,13 @@ function main_loop()
     --print("loop\n")
 
     -- pega os valores de tempo em minuto
-    sec,usec,rate=rtctime.get()
-    min=math.floor(sec/60)
-    hour=math.floor(min/60)    
-    
+    tm=rtctime.epoch2cal(rtctime.get())
+    sec=tm["sec"]
+    min=tm["min"]
+    hour=tm["hour"]
     dec_min = math.floor(min/10)
-    if not last_dec_min_ilu==dec_min then    
+    
+  if not last_dec_min_ilu==dec_min then    
         -- acionamento dos coolers
         if han_luz[dec_min]==0 then
             com(nano1_addr,"3","12000")    -- 3: d0, 12: coolers, 000: desligado               
