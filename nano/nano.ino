@@ -3,7 +3,14 @@
 #include <Wire.h>
 #include "complex.h"
 enum fn {NONE, PW, AI, DO, DI, READ, HELP};
-#define MY_ID 8 //
+
+#define down
+
+#ifdef topo
+  #define MY_ID 8 //
+#else
+  #define MY_ID 9
+#endif
 
 char out_buffer[32];
 uint8_t used_size;
