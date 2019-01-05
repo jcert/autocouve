@@ -40,7 +40,7 @@ estado[10] = com(nano1_addr,"5","C04") --pedir Temp_G READ.C.04
 --estado[13] = com(nano1_addr,"5","C05") --pedir Umid_v3 READ.C.XX não existe ainda
 --estado[14] = com(nano1_addr,"5","C05") --pedir Umid_v4 READ.C.XX
 
-estado[15] = com(nano1_addr,"5","D12") --pedir Cooler READ.D.12
+estado[15] = com(nano1_addr,"5","D10") --pedir Cooler READ.D.12
 
 --estado[16] = com(nano1_addr,"5","C??") --pedir Reservatorio READ.C.10
 end
