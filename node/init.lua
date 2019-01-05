@@ -63,4 +63,14 @@ main_loop_tmr = tmr.create()
 main_loop_tmr:register(1000, tmr.ALARM_AUTO, main_loop)
 main_loop_tmr:start()
 
+han_luz = {}
+for i=0,144 do
+  han_luz[i] = 200
+end
+
+cba_bomba = {}
+for i=0,24 do
+  cba_bomba[i] = 3
+end  
+  
 

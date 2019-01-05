@@ -1,6 +1,6 @@
 -- esse arquivo contem a funcao main_loop() chamada pela timer main_loop_tmr que esta registrado no arquivo init.lua, uma vez por segundo.
 
-last_min_ilu=-1
+last_dec_min_ilu=-1
 last_hour_irrig=-1
 
 function main_loop()
@@ -11,10 +11,11 @@ function main_loop()
     sec,usec,rate=rtctime.get()
     min=math.floor(sec/60)
     hour=math.floor(min/60)    
-
-    if not last_min_ilu==min then    
+    
+    dec_min = math.floor(min/10)
+    if not last_dec_min_ilu==dec_min then    
         -- acionamento dos coolers
-        if han_luz[min]==0 then
+        if han_luz[dec_min]==0 then
             com(nano1_addr,"3","12000")    -- 3: d0, 12: coolers, 000: desligado               
         else
             com(nano1_addr,"3","12001")    -- 3: d0, 12: coolers, 001: ligado
@@ -27,8 +28,8 @@ function main_loop()
         com(nano1_addr,"1","06"..han_luz_formatado)  -- 1: pwm, 06: i_led3    
         com(nano1_addr,"1","03"..han_luz_formatado)  -- 1: pwm, 03: i_led4    
 
-        -- altera last_min_ilu
-        last_min_ilu=min
+        -- altera last_dec_min_ilu
+        last_dec_min_ilu=min
     end
 
     -- acionamento das bombas

@@ -51,15 +51,19 @@ funcao_cod["READ"]="5"
 funcao_cod["HELP"]="6"
 
 pino={}
-pino["bomba1"]="02" 		-- digital
-pino["bomba2"]="07" 		-- digital
-pino["bomba3"]="04" 		-- digital
-pino["bomba4"]="08" 		-- digital
+arduino2
+pino["bomba1"]="03" 	-- pwm
+pino["bomba2"]="05" 	-- pwm
+pino["bomba3"]="06" 	-- pwm
+pino["bomba4"]="09" 	-- pwm
+
+arduino1
+pino["ldr"]="06"      -- analogica
 pino["i_led1"]="09"		-- pwm
-pino["i_led2"]="05"		-- pwm
-pino["i_led3"]="06"		-- pwm
+pino["i_led2"]="06"		-- pwm
+pino["i_led3"]="05"		-- pwm
 pino["i_led4"]="03"		-- pwm
-pino["coolers"]="12"		-- digital
+pino["coolers"]="10"		-- digital
 pino["t_led1"]="00"		-- analogica
 pino["t_led2"]="01"		-- analogica
 pino["t_led3"]="02"		-- analogica

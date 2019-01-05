@@ -5,5 +5,5 @@
 #sudo usermod -a -G dialout ${whoami}
 
 esptool --port /dev/ttyUSB0 erase_flash 
-esptool --port /dev/ttyUSB0 write_flash 0x00000 nodemcu-master-9-modules-2018-06-30-16-50-13-float.bin
+esptool --port /dev/ttyUSB0 write_flash 0x00000 nodemcu-master-12-modules-2019-01-03-19-54-33-float.bin 
 
