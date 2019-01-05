@@ -23,14 +23,14 @@ function main_loop()
         end    
 
         -- acionamento dos leds
-        han_luz_formatado=string.format("%03d",han_luz[min])
+        han_luz_formatado=string.format("%03d",han_luz[dec_min])
         com(nano1_addr,"1","09"..han_luz_formatado)  -- 1: pwm, 09: i_led1    
         com(nano1_addr,"1","05"..han_luz_formatado)  -- 1: pwm, 05: i_led2    
         com(nano1_addr,"1","06"..han_luz_formatado)  -- 1: pwm, 06: i_led3    
         com(nano1_addr,"1","03"..han_luz_formatado)  -- 1: pwm, 03: i_led4    
 
         -- altera last_dec_min_ilu
-        last_dec_min_ilu=min
+        last_dec_min_ilu=dec_min
     end
 
     -- acionamento das bombas

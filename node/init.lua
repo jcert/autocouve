@@ -66,7 +66,7 @@ tmr.delay(50)
 
 -- seta o rtc interno
 rtctime.set(1546300800, 0)
-tm = rtctime.epoch2cal(rtctime.get())
+local tm = rtctime.epoch2cal(rtctime.get())
 print(string.format("%04d/%02d/%02d %02d:%02d:%02d", tm["year"], tm["mon"], tm["day"], tm["hour"], tm["min"], tm["sec"]))
 
 -- incializa o ciclo principal da estufa
@@ -74,11 +74,12 @@ main_loop_tmr = tmr.create()
 main_loop_tmr:register(1000, tmr.ALARM_AUTO, main_loop)
 main_loop_tmr:start()
 
+print(1)
 han_luz = {}
 for i=0,144 do
   han_luz[i] = 200
 end
-
+print(2)
 kbc_bomba = {}
 for i=0,24 do
   kbc_bomba[i] = 3
