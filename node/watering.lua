@@ -22,9 +22,7 @@ function set_watering_time(data)
   --print("\n")
   print("Hour" .. "\t" .. "t_seg")
   for i=1,#kbc_bomba,1 do
-    print(i .." \t " .. kbc_bomba[i]) 
+    print(i .." \t " .. kbc_bomba[i])
   end
 
 end
-
-

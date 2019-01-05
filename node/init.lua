@@ -8,7 +8,9 @@ node.compile("com.lua")
 node.compile("hard.lua")
 node.compile("wifi.lua")
 node.compile("mqtt.lua")
+node.compile("watering.lua")
 node.compile("main_loop.lua")
+
 
 
 ----acho que vai economizar espaço usar as chaves numericas e não string
@@ -49,6 +51,9 @@ print("2 memory:",node.heap())
 dofile("mqtt.lc")
 print("3 memory:",node.heap())
 
+-- set_watering
+dofile("watering.lc")
+
 -- main_loop
 print("4 memory:",node.heap())
 dofile("main_loop.lc")
@@ -59,12 +64,12 @@ collectgarbage();
 print("6 memory:",node.heap())
 tmr.delay(50)
 
--- seta o rtc interno 
+-- seta o rtc interno
 rtctime.set(1436430589, 0)
 tm = rtctime.epoch2cal(rtctime.get())
 print(string.format("%04d/%02d/%02d %02d:%02d:%02d", tm["year"], tm["mon"], tm["day"], tm["hour"], tm["min"], tm["sec"]))
 
--- incializa o ciclo principal da estufa 
+-- incializa o ciclo principal da estufa
 main_loop_tmr = tmr.create()
 main_loop_tmr:register(1000, tmr.ALARM_AUTO, main_loop)
 main_loop_tmr:start()
@@ -74,9 +79,7 @@ for i=0,144 do
   han_luz[i] = 200
 end
 
-cba_bomba = {}
+kbc_bomba = {}
 for i=0,24 do
-  cba_bomba[i] = 3
-end  
-  
-
+  kbc_bomba[i] = 3
+end
