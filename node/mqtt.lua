@@ -1,11 +1,11 @@
 function set_light(data)
-	data = split(data,",")
+	data = split(data,";")
 	a = tonumber(data[1])
 	c = tonumber(data[2])
 
 	han_luz = {}
-	for i=0,1440 do
-		gaussian = a*2.718282^(-(i-12*60)^2/(2*(c*60)^2))
+	for i=0,144 do
+		gaussian = a*2.718282^(-(10*i-12*60)^2/(2*(c*60)^2))
 
 		han_luz[i] = math.floor(gaussian)
 	end
