@@ -3,14 +3,19 @@ uart.setup(0, 115200, 8, uart.PARITY_NONE, uart.STOPBITS_1, 1)
 
 -- script principal
 
-node.compile("aux.lua")
-node.compile("com.lua")
-node.compile("hard.lua")
-node.compile("wifi.lua")
-node.compile("mqtt.lua")
-node.compile("watering.lua")
-node.compile("main_loop.lua")
+--https://github.com/alexsuslov/esp8266-lua-optimize/blob/master/optimize.lua
+local compileRemove = function(f)
+  if f ~='init.lua' and f:match("lua$") and file.open(f) then
+    file.close()
+    print('Compiling:', f)
+    node.compile(f)
+    file.remove(f)
+  end
+end
 
+for f in pairs( file.list() ) do
+	compileRemove(f)
+end
 
 ----acho que vai economizar espaço usar as chaves numericas e não string
 --[ 1] T_led1
@@ -43,7 +48,7 @@ dofile("hard.lc")
 
 -- wifi
 print("1 memory:",node.heap())
-dofile("wifi.lua")
+dofile("wifi.lc")
 
 -- mqtt
 print("2 memory:",node.heap())

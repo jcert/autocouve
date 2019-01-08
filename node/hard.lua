@@ -40,7 +40,7 @@ end
 
 
 
-no = [[
+local no = [[
 funcao_cod={}
 funcao_cod["NOME"]="0"
 funcao_cod["PWM"]="1"
@@ -74,5 +74,8 @@ pino["nivel_reserv1"]="10"	-- digital
 pino["nivel_reserv2"]="11"	-- digital
 
 ]]
+
+
+local no = ""
 
 
