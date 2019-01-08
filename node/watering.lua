@@ -18,11 +18,11 @@ function set_watering_time(data)
 
   kbc_bomba[hora_added] = bomba_timer_added
 
-  print("Watering table updated!")
+  --print("Watering table updated!")
   --print("\n")
-  print("Hour" .. "\t" .. "t_seg")
-  for i=1,#kbc_bomba,1 do
-    print(i .." \t " .. kbc_bomba[i])
-  end
-
+  --print("Hour" .. "\t" .. "t_seg")
+  --for i=1,#kbc_bomba,1 do
+  --  print(i .." \t " .. kbc_bomba[i])
+  --end
+collectgarbage()
 end

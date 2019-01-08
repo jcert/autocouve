@@ -1,11 +1,12 @@
-function set_light(data)
-	data = split(data,";")
-	a = tonumber(data[1])
-	c = tonumber(data[2])
 
-	han_luz = {}
+function set_light(data)
+	local data = split(data,";")
+	local a = tonumber(data[1])
+	local c = tonumber(data[2])
+
+	--han_luz = {}
 	for i=0,144 do
-		gaussian = a*2.718282^(-(10*i-12*60)^2/(2*(c*60)^2))
+		local gaussian = a*2.718282^(-(10*i-12*60)^2/(2*(c*60)^2))
 
 		han_luz[i] = math.floor(gaussian)
 	end
@@ -14,33 +15,41 @@ function set_light(data)
 end
 
 
-m = mqtt.Client(client_id,120,mqtt_user,mqtt_pwd)
+m = mqtt.Client(mqtt_client_id,120,mqtt_user,mqtt_pwd)
 
 m:lwt("/lwt", "offline", 0, 0)
 
 m:on("connect", function(client) print ("connected") end)
 m:on("offline", function(client) print ("offline - lugar do retry") end)
 
+-- m:connect("iot.eclipse.org",1883, 0, function(client) print("ok") end, function(client,reason) print("Fail : " .. reason) end)
+-- m:subscribe("/lffs", 0,function(conn) print("mqtt: inscrito nos topicos") end)
 function connect_MQTT()
-  return m:connect(server,port, 0, function(client)
-    print("mqtt: conectado")
 
-    client:subscribe(topicos_comando, function(conn)
-		  print("mqtt: inscrito nos topicos")
-		  --inicia_publish()
-		end)
-  end, function(client, reason)
+m:connect(mqtt_server_ip,mqtt_port, 0, function(client)
+	print("mqtt: conectado")
+		client:subscribe(topicos_comando[1], 0,function(conn) print("mqtt: inscrito nos topicos") end)
+		client:subscribe(topicos_comando[2], 0,function(conn) print("mqtt: inscrito nos topicos") end)
+		client:subscribe("/lffs", 0,function(conn) print("mqtt: inscrito nos topicos") end)
+		client:publish("/lffs/status", "hello", 0, 0, function(client) print("status enviado") end)
+		flag_mqtt = true
+		if not MQTTtimer:stop() then end
+  end,
+	function(client, reason)
     print("mqtt: failed reason " .. reason)
-
   end)
 end
+
+
+
+--m:publish("/lffs/status", "ligadao", 0, 0, function(client) print("sent") end)
 
 
 
 estufa="/estufa1"
 -- publicacao dos status  -------------------------------------------------------------
 
-no = [[
+nos_es_nada_por_cierto = [[
 topicos_status={
 [1] =estufa.."/led1/i/status",
 [2] =estufa.."/led2/i/status",
@@ -57,49 +66,27 @@ topicos_status={
 [13]=estufa.."/led4/t/status",
 [14]=estufa.."/power/status"
 }
+
 ]]
-
-publish_ind=1
-espera=1000 -- em ms
-timer_publish=tmr.create()
-timer_publish:register(espera,tmr.ALARM_AUTO,function()
-  --print("mqtt memory:",node.heap())
-  collectgarbage();
-
-    --input de curva solar
-
-    --input da irrigação
-
-
-end)
-
-
-function inicia_publish()
-	timer_publish:start()
-end
-
-function para_publish()
-	timer_publish:stop()
-end
 
 ---------------------------------------------------------------------------------------
 
 m:on("connect", function(client) print("mqtt: conectado 1") end)
-function try_reconnect()
-print("mqtt: offline")
-timer_reMQTT=tmr.create()
-end
+
 m:on("offline", function(client)
-  tmr.create():alarm(5000, tmr.ALARM_AUTO, function()
-  end)
+MQTTtimer:start()
+flag_mqtt = false
 end)
+
+MQTTtimer = tmr.create()
+MQTTtimer:register(5000, tmr.ALARM_AUTO, function() connect_MQTT() end)
 
 
 -- leitura de comandos ----------------------------------------------------------------
 
 topicos_comando={
-[estufa.."/led1/set_light"]=2,
-[estufa.."/bomba/set_water_time"]=2,
+[1] = estufa.."/led/set_light",
+[2] = estufa.."/bomba/set_water_time",
 --[estufa.."/vaso1/bomba/comando"]=2,
 --[estufa.."/vaso2/bomba/comando"]=2,
 --[estufa.."/vaso3/bomba/comando"]=2,
@@ -110,22 +97,49 @@ topicos_comando={
 }
 
 
-connect_MQTT()
+
+--TESTE
+pin=4
+led_state=0
+
+gpio.mode(pin,gpio.OUTPUT)
+gpio.write(pin,gpio.HIGH)
+
+
+--receive_MQTT()
 
 m:on("message", function(client, topic, data)
 	topic_table=split(topic,"/")
 	tam_topic_table = #topic_table
 
+
+m:publish("/lffs/status", "Rcbd: " .. tostring(data), 0, 0, function(client) end)
+	var = (tostring(data))
+
+
+	if var=="1" then
+			--led_state=1
+			gpio.write(pin,gpio.LOW)
+	elseif var == "0" then
+			--data=0
+			gpio.write(pin,gpio.HIGH)
+	end
+
+
+
 	if topic_table[tam_topic_table] == "set_water_time" then
-		set_watering(data)
+		set_watering_time(data)
+		print("water set")
 
 	elseif topic_table[tam_topic_table] == "set_light" then
 		set_light(data)
 
 	end
-
+collectgarbage()
 end)
 ---------------------------------------------------------------------------------------
+function emalaivemqtt()
 
+end
 
 --m:close();

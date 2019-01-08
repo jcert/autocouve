@@ -36,6 +36,7 @@ end
 --[16] Reservatorio
 estado={}
 
+
 --usa os scripts compilados
 -- funcoes auxiliares
 dofile("aux.lc")
@@ -89,3 +90,6 @@ kbc_bomba = {}
 for i=0,24 do
   kbc_bomba[i] = 3
 end
+
+-- Inicializa Conexão MQTT
+connect_MQTT()

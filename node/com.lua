@@ -8,7 +8,7 @@
 -- endereco do nano 0x8
 id=0
 nano1_addr=8
-i2c.setup(id,1,2,i2c.SLOW) --pinos foram trocados no layout da placa, por isso troquei no código, será arrumado ná próxima atualização 
+i2c.setup(id,1,2,i2c.SLOW) --pinos foram trocados no layout da placa, por isso troquei no código, será arrumado ná próxima atualização
 
 --for i=1,10 do
 --	print(i,estado[i])
@@ -35,14 +35,14 @@ estado[8]  = com(nano1_addr,"5","P03") --pedir i_led4 READ.P.03
 estado[9]  = com(nano1_addr,"5","C03") --pedir Umid_G READ.C.03
 estado[10] = com(nano1_addr,"5","C04") --pedir Temp_G READ.C.04
 
---estado[11] = com(nano1_addr,"5","C01") --pedir Umid_v1 READ.C.01
---estado[12] = com(nano1_addr,"5","C02") --pedir Umid_v2 READ.C.02
---estado[13] = com(nano1_addr,"5","C05") --pedir Umid_v3 READ.C.XX não existe ainda
---estado[14] = com(nano1_addr,"5","C05") --pedir Umid_v4 READ.C.XX
+estado[11] = 0--com(nano1_addr,"5","C01") --pedir Umid_v1 READ.C.01
+estado[12] = 0--com(nano1_addr,"5","C02") --pedir Umid_v2 READ.C.02
+estado[13] = 0--com(nano1_addr,"5","C05") --pedir Umid_v3 READ.C.XX não existe ainda
+estado[14] = 0--com(nano1_addr,"5","C05") --pedir Umid_v4 READ.C.XX
 
 estado[15] = com(nano1_addr,"5","D10") --pedir Cooler READ.D.10
 
---estado[16] = com(nano1_addr,"5","C??") --pedir Reservatorio READ.C.10
+estado[16] = 0--com(nano1_addr,"5","C??") --pedir Reservatorio READ.C.10
 end
 
 
@@ -50,7 +50,7 @@ end
 
 
 -- função para a acomunicação por I2C com as placas de arduino
---  address - uint8_t: endereço do arduino que receberá a mensagem  
+--  address - uint8_t: endereço do arduino que receberá a mensagem
 --  fn      - string: função chamada no arduino
 --  p       - string: parametro para a função chamada, pode incluir o pino e um valor, ou similar
 --
@@ -67,11 +67,11 @@ end
 --temperatura4
 --
 --      descrição dos possíveis 'p' - pinos do arduino slave
---concatenar o valor a ser passado para a função, 
---  ex: PWM.09.200 ou READ.C.07, bomba1 02 digital	bomba2 07 digital	bomba3 04 digital	bomba4 08 digital 
---      i_led1 09 pwm		i_led2 05 pwm 		i_led3 06 pwm		i_led4 03 pwm 	coolers 12 digital	
---      t_led1 00 analogica	t_led2 01 analogica 	t_led3 02 analogica	t_led4 03 analogica	
---      umid_vaso1 06 analogica 	umid_vaso2 07 analogica 
+--concatenar o valor a ser passado para a função,
+--  ex: PWM.09.200 ou READ.C.07, bomba1 02 digital	bomba2 07 digital	bomba3 04 digital	bomba4 08 digital
+--      i_led1 09 pwm		i_led2 05 pwm 		i_led3 06 pwm		i_led4 03 pwm 	coolers 12 digital
+--      t_led1 00 analogica	t_led2 01 analogica 	t_led3 02 analogica	t_led4 03 analogica
+--      umid_vaso1 06 analogica 	umid_vaso2 07 analogica
 --      nivel_reserv1 10 digital 	nivel_reserv2 11 digital
 
 --  Exemplos:
@@ -101,12 +101,12 @@ function com(address,fn,p)
 		print("i2c: recebeu ACK")
 		return "ACK"
 	else
-	    -- que é isso? é para pegar o string de numeros e tansformar num inteiro? 
+	    -- que é isso? é para pegar o string de numeros e tansformar num inteiro?
 		-- received data
 		local received6=string.sub(received,1,6)
 		local last_index=1
 		local buff=tohex(string.sub(received6,last_index,last_index))
-		
+
 		while buff~="FF" do
 			last_index=last_index+1
 			buff=tohex(string.sub(received6,last_index,last_index))
@@ -114,7 +114,7 @@ function com(address,fn,p)
 		last_index=last_index-1
 
 		received=string.sub(received6,1,last_index)
-		
+
 		return received
 	end
 end

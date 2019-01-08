@@ -3,6 +3,9 @@
 last_dec_min_ilu=-1
 last_hour_irrig=-1
 last_min_mqtt = -1
+
+flag_mqtt = false
+
 estufa="/estufa1"
 topicos_status={
 [1] =estufa.."/led1/i/status",
@@ -20,7 +23,8 @@ topicos_status={
 
 function main_loop()
     --debug
-    print("loop\n")
+    --print("loop\n")
+    pedir_status()
 
     -- pega os valores de tempo em minuto
     tm=rtctime.epoch2cal(rtctime.get())
@@ -71,38 +75,43 @@ function main_loop()
         -- altera last_hour_irrig
         last_hour_irrig=hour
     end
-
     --envio dos status
-    if last_min_mqtt =~ min then
-      for
+
+
+    if last_min_mqtt ~= min and flag_mqtt == true then
+
+
       -- status dos leds
-      client:publish(topicos_status[1], estado[5], 0, 0, function(client) print("sent led 1 i") end)
-      client:publish(topicos_status[2], estado[6], 0, 0, function(client) print("sent led 2 i") end)
-      client:publish(topicos_status[3], estado[7], 0, 0, function(client) print("sent led 3 i") end)
-      client:publish(topicos_status[4], estado[8], 0, 0, function(client) print("sent led 4 i") end)
+      m:publish(topicos_status[1], tostring(estado[5]), 2, 0, function(client)  end)
+      m:publish(topicos_status[2], tostring(estado[6]), 2, 0, function(client)  end)
+      m:publish(topicos_status[3], tostring(estado[7]), 2, 0, function(client) end)
+      m:publish(topicos_status[4], tostring(estado[8]), 2, 0, function(client)  end)
 
-
+      status_bombas = ""
       -- converter table da bomba pra string
       for i=1, #kbc_bomba do
         status_bombas = status_bombas .. ";" .. tostring(kbc_bomba[i])
       end
       -- status da bomba
-      client:publish(topicos_status[5], status_bombas, 0, 0, function(client) print("sent bomba status") end)
+      m:publish(topicos_status[5], tostring(status_bombas), 2, 0, function(client)  end)
       -- status dos cooelers
-      client:publish(topicos_status[6], estado[15], 0, 0, function(client) print("sent coolers status") end)
+      m:publish(topicos_status[6], tostring(estado[15]), 2, 0, function(client)  end)
 
       --status da temperatura dos leds
-      client:publish(topicos_status[7], estado[1], 0, 0, function(client) print("sent led 1 t") end)
-      client:publish(topicos_status[8], estado[2], 0, 0, function(client) print("sent led 2 t") end)
-      client:publish(topicos_status[8], estado[3], 0, 0, function(client) print("sent led 3 t") end)
-      client:publish(topicos_status[10], estado[4], 0, 0, function(client) print("sent led 4 t") end)
-
-      --client:publish(topicos_status[11], estado[4], 0, 0, function(client) print("sent led 4 t") end)
+      m:publish(topicos_status[7], tostring(estado[1]), 2, 0, function(client)  end)
+      m:publish(topicos_status[8], tostring(estado[2]), 2, 0, function(client)  end)
+      m:publish(topicos_status[9], tostring(estado[3]), 2, 0, function(client)  end)
+      m:publish(topicos_status[10], tostring(estado[4]), 0, 0, function(client)  end)
 
       --altera last_hour_irrig
       last_min_mqtt = min
+      --print("Todos status foram enviados com sucesso!")
 
+      collectgarbage()
     end
 
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 end
