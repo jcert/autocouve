@@ -40,7 +40,7 @@ end
 
 
 
-<<<<<<< Updated upstream
+--<<<<<<< Updated upstream
 local no = [[
 funcao_cod={}
 funcao_cod["NOME"]="0"
@@ -68,7 +68,7 @@ pino["coolers"]="10"		-- digital
 pino["t_led1"]="00"		-- analogica
 pino["t_led2"]="01"		-- analogica
 pino["t_led3"]="02"		-- analogica
-pino["t_led4"]="03"		-- analogica	
+pino["t_led4"]="03"		-- analogica
 pino["umid_vaso1"]="06" 	-- analogica
 pino["umid_vaso2"]="07" 	-- analogica
 pino["nivel_reserv1"]="10"	-- digital
@@ -80,7 +80,7 @@ pino["nivel_reserv2"]="11"	-- digital
 local no = ""
 
 
-=======
+--======
 --no = [[
 --funcao_cod={}
 --funcao_cod["NOME"]="0"
@@ -115,4 +115,4 @@ local no = ""
 --pino["nivel_reserv2"]="11"	-- digital
 
 --]]
->>>>>>> Stashed changes
+-->>>>>>> Stashed changes

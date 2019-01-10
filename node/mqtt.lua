@@ -7,7 +7,7 @@ function set_light(data)
 	--han_luz = {}
 	for i=0,144 do
 		local gaussian = a*2.718282^(-(10*i-12*60)^2/(2*(c*60)^2))
-
+		print("luz configurada")
 		han_luz[i] = math.floor(gaussian)
 	end
 

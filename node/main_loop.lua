@@ -110,8 +110,4 @@ function main_loop()
       collectgarbage()
     end
 
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
 end
