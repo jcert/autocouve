@@ -87,13 +87,17 @@ function com(address,fn,p)
 	message="&"..fn..p.."!"
 	-- i2c.start(0) i2c.address(0,8,i2c.TRANSMITTER) i2c.write(0,"&600000!") i2c.stop(0)
 	i2c.write(id,message)
-	--i2c.stop(id) --precisa parar entre as transmissões?
+	i2c.stop(id) --precisa parar entre as transmissões? parece que sim
 
 	-- receive answer
-	--i2c.start(id)
+	i2c.start(id)
 	i2c.address(id,address,i2c.RECEIVER)
 	received=i2c.read(id,10)
 	i2c.stop(id)
+	
+	-- debug
+	print(received)
+
 
 	local received3=string.sub(received,1,3)
 	if received3=="ACK" then
